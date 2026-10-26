@@ -1,9 +1,18 @@
-import	express,	{	Request,	Response	}	from	'express';
-import dotenv from "dotenv"
-dotenv.config()
-const	app	=	express();
-const	PORT= process.env.PORT || 3000;
+import app from "./app";
+import prisma from "./config/prisma";
+import { env } from "./config/env";
 
-app.listen(PORT,	()	=>	{
-console.log(`Serveur	démarré	sur	http://localhost:${PORT}`);
-});
+const start = async () => {
+  try {
+    await prisma.$connect();
+    console.log("Database connected");
+    app.listen(env.PORT, () => {
+      console.log(`Server listening on http://localhost:${env.PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server", error);
+    process.exit(1);
+  }
+};
+
+start();
