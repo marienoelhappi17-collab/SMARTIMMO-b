@@ -11,11 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 // 2. Routes
-app.get("/api/health", (_req, res) => {
-  res.json({ success: true, message: "API is running" });
-});
+
 app.use("/api/auth", authRoutes);
-app.use("/api/test", testRoutes);
 
 // 3. Toujours en dernier : route inconnue, puis erreurs
 app.use(notFound);

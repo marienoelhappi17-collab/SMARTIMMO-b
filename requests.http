@@ -1,0 +1,67 @@
+@baseUrl = http://localhost:3005/api
+@token = colle_ici_le_token
+
+### Inscription invalide (400, erreurs par champ)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ "nom": "", "email": "pas-un-email", "telephone": "12", "password": "123" }
+
+### Inscription avec un rôle interdit (400)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ "nom": "Test", "email": "x@test.com", "telephone": "690000009", "password": "Password123!", "role": "LOCATAIRE" }
+
+### Inscription valide (201)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ "nom": "Nouveau Bailleur", "email": "nouveau@test.com", "telephone": "690000009", "password": "Password123!" }
+
+### Même e-mail une 2e fois (409)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ "nom": "Nouveau Bailleur", "email": "nouveau@test.com", "telephone": "690000009", "password": "Password123!" }
+
+### Connexion bailleur (copie le token)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{ "email": "bailleur@test.com", "password": "Password123!" }
+
+### Mauvais mot de passe (401 "Identifiants incorrects")
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{ "email": "bailleur@test.com", "password": "mauvais" }
+
+### Profil courant (200)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Sans token (401)
+GET {{baseUrl}}/auth/me
+
+### Route du bailleur (200 avec token bailleur)
+GET {{baseUrl}}/test/bailleur
+Authorization: Bearer {{token}}
+
+### Route du locataire avec token bailleur (403)
+GET {{baseUrl}}/test/locataire
+Authorization: Bearer {{token}}
+
+### Changer le mot de passe (400 si ancien faux)
+PATCH {{baseUrl}}/auth/password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "oldPassword": "Password123!", "newPassword": "NouveauPass123!" }
+
+### Créer un locataire (201, bailleur seulement)
+POST {{baseUrl}}/auth/locataires
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "nom": "Locataire Deux", "email": "locataire2@test.com", "telephone": "690000010", "password": "Provisoire123!" }

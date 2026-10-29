@@ -12,7 +12,6 @@ import {
 
 const SALT_ROUNDS = 10;
 
-// Colonnes autorisées à sortir : jamais passwordHash
 const publicUser = {
   id: true,
   nom: true,
@@ -89,7 +88,7 @@ export const changePassword = async (req: Request, res: Response) => {
   res.json({ success: true, message: "Mot de passe modifié" });
 };
 
-// Réservé au bailleur : crée un compte LOCATAIRE
+// pour le bailleur : crée un compte LOCATAIRE
 export const createLocataire = async (req: Request, res: Response) => {
   const { nom, email, telephone, password } = req.body as CreateLocataireInput;
 
