@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import prisma from "../config/prisma";
 import { AppError } from "../utils/app-error";
-import { verifyToken } from "../utils/jwt";
+import { verifyAccessToken } from "../utils/jwt";
 
 export const authenticate: RequestHandler = async (req, _res, next) => {
   const header = req.headers.authorization; // en minuscules dans Node
@@ -9,7 +9,7 @@ export const authenticate: RequestHandler = async (req, _res, next) => {
     throw new AppError("Authentification requise", 401);
   }
 
-  const userId = verifyToken(header.slice(7).trim()); // invalide -> 401
+  const userId = verifyAccessToken(header.slice(7).trim()); // invalide -> 401
 
   // Le rôle vient de la base, pas du client
   const user = await prisma.user.findUnique({

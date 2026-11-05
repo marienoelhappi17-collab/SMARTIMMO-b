@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:3005/api
-@token = colle_ici_le_token
+@token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTM0MDEzMzksImV4cCI6MTc5MzQwMjIzOSwic3ViIjoiZTcxMTM0MzUtNzE1ZS00MDA1LTlmNjEtNjkwZWFkMWZhYzhhIiwianRpIjoiYWNjZDBhMTMtMzU2Mi00YzI2LWJiNDctM2QzNGMwZTkzYjU0In0.5nOVGNxbM8eH8vwgI6ef2mgot9wsq8Wm_ujX3TOXmOE",
+@refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTM0MDEzMzksImV4cCI6MTc5NDAwNjEzOSwic3ViIjoiZTcxMTM0MzUtNzE1ZS00MDA1LTlmNjEtNjkwZWFkMWZhYzhhIiwianRpIjoiNTg0ZmQzYTYtODhhNS00ZjQyLWI0ZDctMmYxNTJhYWExODRiIn0._oh989EXYaX_cSG9EWE77PD-CXGR7NI8cOj7uPbSBkM",
 
 ### Inscription invalide (400, erreurs par champ)
 POST {{baseUrl}}/auth/register
@@ -65,3 +66,36 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 { "nom": "Locataire Deux", "email": "locataire2@test.com", "telephone": "690000010", "password": "Provisoire123!" }
+
+### Test complet : inscription
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ "nom": "Awa Bailleur", "email": "awa@test.com", "telephone": "690000020", "password": "Password123!" }
+
+### Test 1 : inscription 
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{"nom": "Marcel bailleur", "email": "marcel@yahoo.fr", "telephone":"675369384", "password": "password1234!" }
+
+### R1 connexion
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "bailleur@test.com",
+  "password": "Password123!"
+}
+
+### R2 me
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### R3 renouvellement
+POST {{baseUrl}}/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}

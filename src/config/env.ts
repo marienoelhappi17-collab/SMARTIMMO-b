@@ -12,6 +12,8 @@ export const env = {
   PORT: Number(process.env.PORT ?? 3000),
   NODE_ENV: process.env.NODE_ENV ?? "development",
   DATABASE_URL: required("DATABASE_URL"),
-  JWT_SECRET: required("JWT_SECRET"),
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? "1d",
+  JWT_ACCESS_SECRET: required("JWT_ACCESS_SECRET"),
+  JWT_REFRESH_SECRET: required("JWT_REFRESH_SECRET"),
+  JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES ?? "15m",
+  JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES ?? "7d",
 };
